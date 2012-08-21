@@ -1,5 +1,5 @@
 import java.util.Date;
-
+//teste
 
 public class Contrato {
      private int idContrato;
