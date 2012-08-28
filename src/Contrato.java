@@ -1,10 +1,14 @@
 import java.util.Date;
-//teste
+
 
 public class Contrato {
      private int idContrato;
      private int valorContrato;
      private Date dataAssinatura;
+     private Inquilino inquilino;
+     private Imovel imovel;
+     private Corretor corretor;
+     private static int pIdContrato; // variavel de auto-incremento para gerra PK
      
      public int getIdContrato (){
     	 return idContrato;
@@ -25,4 +29,6 @@ public class Contrato {
      public void setDataAssinatura (Date nDataAssinatura){
     	 dataAssinatura = nDataAssinatura;
      }
+     
+     
 }
