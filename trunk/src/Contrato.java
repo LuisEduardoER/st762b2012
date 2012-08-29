@@ -57,7 +57,7 @@ public class Contrato {
      public Proprietario getProprietario(){
     	 return proprietario;
      }
-     /*IMPLEMENTAR BY MY WAY
+     /*IMPLEMENTAR BY MY WAY (ou nao)
      public Inquilino getInquilino(){
     	 return inquilino;
      }*/
@@ -68,7 +68,7 @@ public class Contrato {
      
     /* public Imovel getImovel(){
     	 return imovel;
-     }*/
+     } AGguardando proprietario*/
      
      public Fiador getFiador() throws Exception{
     	 if (fiador == null){
