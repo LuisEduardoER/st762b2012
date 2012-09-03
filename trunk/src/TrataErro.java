@@ -1,5 +1,5 @@
-
-public class TrataErro {
+public class TrataErro 
+{
 
 	private static Exception _err;
 	

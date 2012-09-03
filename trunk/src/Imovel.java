@@ -1,5 +1,20 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.io.*;
 
 public class Imovel {
+	
+	public static Scanner leitor = new Scanner(System.in);
+	List<Imovel> ListImovel = new ArrayList<Imovel>();
+	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	Imovel imoveis = new Imovel();
+	
+	Imovel(){
+		//construtor sem parametros;
+	}
+
+	
 	private static TrataErro erro = new TrataErro();
 	
 	private int       tipo;
@@ -8,7 +23,7 @@ public class Imovel {
 	private int       numeroBanheiros;
 	private int       numeroVagasGaragem;
 	private int       numeroComodos;
-	private boolean   possuiAreaExterna;
+	private int       possuiAreaExterna;
 	private boolean   alugado;
 	private int       idImovel;
 	
@@ -16,6 +31,7 @@ public class Imovel {
 	
 	private Endereco  endereco;
 	private Inquilino inquilino;
+	
 	/********************************************************
 	 * tipo:                                                *
 	 * 1 = Casa;                                            *
@@ -48,7 +64,7 @@ public class Imovel {
     	return numeroComodos;
     }
     
-    public boolean getPossuiuAreaExterna (){
+    public int getPossuiuAreaExterna (){
     	return possuiAreaExterna;
     }
      
@@ -99,7 +115,7 @@ public class Imovel {
     	numeroComodos = nNumeroComodos;
     }
     
-    public void setPossuiuAreaExterna (boolean nPossuiuAreaExterna){
+    public void setPossuiuAreaExterna (int nPossuiuAreaExterna){
     	possuiAreaExterna = nPossuiuAreaExterna;
     }
     
@@ -124,7 +140,7 @@ public class Imovel {
     		      int      nNumeroBanheiros,
     		      int      nNumeroVagasGaragem,
     		      int      nNumeroComodos,
-    		      boolean  nPossuiuAreaExterna,
+    		      int      nPossuiuAreaExterna,
     		      Endereco nEndereco) throws Exception{
     	
     	
@@ -141,7 +157,57 @@ public class Imovel {
     	pIdImovel++;
     	idImovel = pIdImovel;
     }
+        
+    public void CadastrarImovel() //throws IOException //throws Exception
+    {
+    			int idProp;
+				Endereco nEndereco = new Endereco();
+				//int tipo, area, nquartos, nbanheiros, nvagas, ncomodos;
+				//int externa;
+				
+				try
+				{					
+					System.out.println("Id do Proprietario: ");
+					idProp = leitor.nextInt();				
+					
+					if(ListImovel.isEmpty())
+					{
+						System.out.println("VAZIA!");
+						
+					}
+					else
+					{										
+						System.out.println("Tipo do imovel: ");
+						imoveis.tipo = Integer.parseInt(reader.readLine());
+						System.out.println("Area util: ");
+						imoveis.areaUtil = Integer.parseInt(reader.readLine());
+						System.out.println("Quartos: ");
+						imoveis.numeroQuartos = Integer.parseInt(reader.readLine());
+						System.out.println("Banheiros: ");
+						imoveis.numeroBanheiros = Integer.parseInt(reader.readLine());
+						System.out.println("Vagas na garagem: ");
+						imoveis.numeroVagasGaragem = Integer.parseInt(reader.readLine());
+						System.out.println("Comodos: ");
+						imoveis.numeroComodos = Integer.parseInt(reader.readLine());
+						System.out.println("Possui area externa 1-Sim / 0-Nao: ");
+						imoveis.possuiAreaExterna = Integer.parseInt(reader.readLine());
+						ListImovel.add(imoveis);					
+					}
+				}
+					
+					catch (IOException e) 
+					{
+						System.out.println(e.toString());
+					}
+				
+			
+						//nEndereco.CadastrarEndereco();
+					/*	}
+						else
+					    {
+					    	Proprietario Prop = new Proprietario();
+					    	Prop.CadastrarProprietario();
+					    }*/		    					
+   }
+
 }
-
-
-
