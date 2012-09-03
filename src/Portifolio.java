@@ -143,5 +143,44 @@ public class Portifolio
 			e.printStackTrace();
 		}
 	}
+	
+	public void ListarImovel() {
+		
+		if(ListImovel.size() == 0) {
+			System.out.println("Não há imoveis cadastrados");
+		}
+		else {
+			for (Imovel i : ListImovel) {
+				System.out.println("Tipo do Imovel : " + i.getTipo());
+				
+			}
+		}
+	}
+	
+	public void ListarAlugados() {
+		
+		if(ListImovel.size() == 0) {
+			System.out.println("Não há imoveis cadastrados");
+		}
+		else {
+			for (Imovel i : ListImovel) {
+				if(i.getAlugado() == true)
+					System.out.println("Tipo do Imovel : " + i.getTipo());
+			}
+		}
+	}
+	
+	public void ListarDisponiveis() {
+		
+		if(ListImovel.size() == 0) {
+			System.out.println("Não há imoveis cadastrados");
+		}
+		else {
+			for (Imovel i : ListImovel) {
+				if(i.getAlugado() == false)
+					System.out.println("Tipo do Imovel : " + i.getTipo());
+			}
+		}
+	}
 
 }
