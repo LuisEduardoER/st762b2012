@@ -1,37 +1,26 @@
+import java.util.Scanner;
 
 public class Pessoa 
 {
 	protected String nome;
-	protected int CPF;
+	protected String CPF;
 	protected String RG;
 	
-	public String getPessoa()
-	{
+	public static Scanner leitor = new Scanner(System.in);
+	
+	public String getPessoa() {
 		return(nome);
 	}
 	
-	public void SetPessoa(String pessoa)
-	{
+	public void SetPessoa(String pessoa) {
 		nome = pessoa;
 	}
 	
-	public int getCPF()
-	{
+	public String getCPF() {
 		return(CPF);
 	}
 	
-	public void SetCPF(int numeroCPF)
-	{
-		CPF = numeroCPF;
-	}
-	
-	public String getRG()
-	{
+	public String getRG() {
 		return(RG);
-	}
-	
-	public void SetRG(String numeroRG)
-	{
-		RG = numeroRG;
 	}
 }

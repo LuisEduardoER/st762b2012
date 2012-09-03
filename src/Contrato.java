@@ -81,8 +81,7 @@ public class Contrato {
     	 dataAssinatura = new Date();
     	 assinado = true;
      }
-     
-     
+          
      public void modificarDadosFiador(String nome,String RG, String CPF, int rendaComprovada){
     	 //Implementar... antes verificar detalhes do fiador, beijos
      }
