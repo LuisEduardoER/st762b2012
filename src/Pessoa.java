@@ -2,7 +2,7 @@
 public class Pessoa 
 {
 	protected String nome;
-	protected String CPF;
+	protected int CPF;
 	protected String RG;
 	
 	public String getPessoa()
@@ -15,13 +15,23 @@ public class Pessoa
 		nome = pessoa;
 	}
 	
-	public String getCPF()
+	public int getCPF()
 	{
 		return(CPF);
+	}
+	
+	public void SetCPF(int numeroCPF)
+	{
+		CPF = numeroCPF;
 	}
 	
 	public String getRG()
 	{
 		return(RG);
+	}
+	
+	public void SetRG(String numeroRG)
+	{
+		RG = numeroRG;
 	}
 }
