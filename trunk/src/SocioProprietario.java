@@ -1,7 +1,7 @@
 
 public class SocioProprietario extends Funcionario
 {
-	private int porcentagemDaEmpresa;		
+		private int porcentagemDaEmpresa;		
 	
 			public int getPorcentagemEmpresa()
 			{
@@ -15,6 +15,6 @@ public class SocioProprietario extends Funcionario
 			
 			public void calcularSalario()
 			{
-				//implementar
+				//somar todos os contratos
 			}	
 }
