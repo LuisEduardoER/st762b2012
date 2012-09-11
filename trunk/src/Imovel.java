@@ -11,7 +11,8 @@ public class Imovel {
 	Imovel imoveis = new Imovel();
 	
 	Imovel(){
-		//construtor sem parametros;
+		pIdImovel++; 
+		idImovel = pIdImovel;
 	}
 
 	

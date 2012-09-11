@@ -1,19 +1,28 @@
+
 public class Corretor extends Funcionario
 {
-	private int bonusMes;
+	private float bonusMes;
 	
-			public int getBonusMes()
+			public float getBonusMes()
 			{
 				return(bonusMes);
 			}
 			
-			public void setBonusMes(int bonus)
+			public void setBonusMes(float bonus)
 			{
 				bonusMes = bonus;
 			}
 			
 			public void calcularSalario()
 			{
-				//implementar
+				/* para cada novo contrato firmado em um mês é gerada uma bonificação no
+				salário correspondente a 1% do valor de um mês de aluguel (esta bonificação é adicionada ao salário-base).*/
+			}
+			
+			public void calcularSalario(int comissao,int total)
+			{
+			    bonusMes = (float) (comissao*0.01);
+			    salario = salario + bonusMes;
+			    
 			}
 }

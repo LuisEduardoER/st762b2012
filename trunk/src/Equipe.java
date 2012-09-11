@@ -13,6 +13,8 @@ public class Equipe
 	private int numeroSocios=0;
 	private int escolha;		
 	private static int idpk=0; // variavel de auto-incremento para gerar PK
+	
+	Portifolio po = new Portifolio();
 		
  	List<Funcionario> listsocio = new ArrayList<Funcionario>(); // lista de funcionários
 //  List<SocioProprietario> listsocio = new ArrayList<SocioProprietario>(); //lista para porcentagem empresa
@@ -59,12 +61,12 @@ public class Equipe
 			
 			public void contratarFuncionario() //Cadastro de funcionários
 			{	
+				setTotalFuncionarios(numeroTotalFuncionarios+1);	
 				String Cargo;
 				idpk++; //chave (ID) para cada novo funcionário definido pelo sistema
 				
 					try 
-					{	
-					//	Funcionario f = new Funcionario();
+					{					
 						Funcionario f;
 						System.out.println("Cargo: ");
 						Cargo = reader.readLine();
@@ -89,7 +91,7 @@ public class Equipe
 						f.setIDFuncional(Integer.parseInt(reader.readLine()));*/
 										
 						System.out.println("Salario: ");
-						f.setSalario(Integer.parseInt(reader.readLine()));							
+						f.setSalario(Float.parseFloat(reader.readLine()));							
 											
 						if(f.getCargo().equalsIgnoreCase("socio"))
 						{
@@ -140,7 +142,7 @@ public class Equipe
 			{
 				for (Funcionario fa : listsocio) 
 				{
-					if(fa.getIDFuncional() == funcionario.getIDFuncional())
+					if(fa.getIDFuncional() == idFuncional)
 					{
 						System.out.println("Dados para conferência do funcionário de ID: " + idFuncional);
 						detalharFuncionarios(fa.getIDFuncional());
@@ -180,7 +182,7 @@ public class Equipe
 										
 								case 5: //Alterar Salário
 										System.out.println("Digite o novo salário: ");
-										fa.setSalario(Integer.parseInt(reader.readLine()));
+										fa.setSalario(Float.parseFloat(reader.readLine()));
 										break;
 								
 								case 6:
@@ -251,15 +253,17 @@ public class Equipe
 				return(f);
 			}
 
-			public void CalcularSalarios()
+			public void CalcularSalarios(Portifolio p)
 			{
-				//implementar
+				for (Funcionario f:listsocio){
+					f.calcularSalario(p.SomarContratosCorretorMes(f.getIDFuncional()), p.SomarContratos());
+				}
 			}
 			
-			public void ObterResultadosDoMes()
-			{
-				//precisa de portfólio
-			}
+			//public void ObterResultadosDoMes()
+			//{
+			//	tranferida para Portifolio 
+			//}
 			
 			public void CadastrarEquipe()
 			{				
@@ -274,7 +278,7 @@ public class Equipe
 				switch(escolha)
 				{
 					case 1: //Contratar Funcionário (Cadastro)
-							setTotalFuncionarios(numeroTotalFuncionarios+1);									
+															
 							contratarFuncionario();										
 							break;										
 								
@@ -304,3 +308,5 @@ public class Equipe
 				}				
 			}
 		}
+
+//TurnMeOnDeadMan

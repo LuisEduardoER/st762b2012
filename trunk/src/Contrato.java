@@ -57,18 +57,18 @@ public class Contrato {
      public Proprietario getProprietario(){
     	 return proprietario;
      }
-     /*IMPLEMENTAR BY MY WAY (ou nao)
-     public Inquilino getInquilino(){
-    	 return inquilino;
-     }*/
+     
+     public Inquilino getInquilino() throws Exception{
+    	 return proprietario.getImovel().getInquilino();
+     }
      
      public Corretor getCorretor(){
     	 return corretor;
      }
      
-    /* public Imovel getImovel(){
-    	 return imovel;
-     } AGguardando proprietario*/
+    public Imovel getImovel(){
+    	 return proprietario.getImovel();
+     }
      
      public Fiador getFiador() throws Exception{
     	 if (fiador == null){
@@ -77,7 +77,11 @@ public class Contrato {
     	 return fiador;
      }
      
-     public void assinarContrato(){
+     public void assinarContrato() throws Exception{
+    	 if (proprietario.getImovel().getAlugado()){
+    		 erro.mostraErro("Imovel já esta alugado");
+    	 }
+    	 proprietario.getImovel().setAlugado(true);
     	 dataAssinatura = new Date();
     	 assinado = true;
      }
