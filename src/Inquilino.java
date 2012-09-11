@@ -42,7 +42,7 @@ public class Inquilino extends Pessoa
 			System.out.println("Nome: ");
 			Inq.nome = leitor.nextLine();
 			System.out.println("CPF: ");
-			Inq.CPF = leitor.nextLine();
+			Inq.CPF = Integer.parseInt(leitor.nextLine());
 			System.out.println("RG: ");
 			Inq.RG = leitor.nextLine();
 			System.out.println("Possui restrições? 1-Sim / 2-Não");

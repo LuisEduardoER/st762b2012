@@ -4,6 +4,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Date;
+
+import org.w3c.dom.ls.LSInput;
 
 public class Portifolio 
 {
@@ -12,10 +15,18 @@ public class Portifolio
 	List<Inquilino> ListInquilino = new ArrayList<Inquilino>();
 	List<Proprietario> ListProprietario = new ArrayList<Proprietario>();
 	List<Fiador> ListFiador = new ArrayList<Fiador>();
+	List<Contrato> ListContrato = new ArrayList<Contrato>();
 	
 	private int totalDeContratos;
 	private int totalContratosAssinados;
 	private int totalImoveisVagos;
+	private static TrataErro erro = new TrataErro();
+	
+	Portifolio (){
+		totalDeContratos = 0;
+		totalContratosAssinados = 0;
+		totalImoveisVagos = 0;
+	}
 	
 	public int getTotalDeContratos (){
 		return totalDeContratos;
@@ -29,15 +40,166 @@ public class Portifolio
 		return totalImoveisVagos;
 	}
 	
-	public void CadastrarImovel() throws NumberFormatException, Exception 
+	
+	
+	public void NovoContrato(Funcionario corretor)throws Exception{
+	    int idProprietario;
+	    Contrato contrato;
+		if (!corretor.getCargo().equalsIgnoreCase("Corretor")){
+	    	erro.mostraErro("Funcionario não é um corretor");
+	    }
+	    System.out.println("Id do Proprietario: ");
+	    idProprietario = Integer.parseInt(reader.readLine());
+	    for (Proprietario pr : ListProprietario){
+	    	if (pr.getpIdProprietario() == idProprietario){
+	    		if (pr.getImovel() == null){
+	    			erro.mostraErro("Proprietario sem Imovel Cadastrado");
+	    		}
+	    		contrato = new Contrato((Corretor) corretor,pr);
+	    		System.out.println("Digite o Valor do contrato");
+	    		contrato.setValorContrato(Integer.parseInt(reader.readLine()));
+	    		ListContrato.add(contrato);
+	    		
+	    		totalDeContratos++;
+	    	}
+	    }
+	    
+	}
+	
+	public void AlterarContrato(int idContrato) throws Exception{
+		if (ListContrato.size() != 0){
+			for (Contrato c: ListContrato){
+				if (c.getIdContrato() == idContrato){
+		    		System.out.println("Digite o Valor do contrato");
+		    		c.setValorContrato(Integer.parseInt(reader.readLine()));
+				}
+			}
+		}
+	}
+	
+	public void ListarContratos(){
+		if (ListContrato.size() == 0) {
+			System.out.println("Não Existem Contratos");
+		}else{
+			for (Contrato c: ListContrato){
+				System.out.println("ID: " + c.getIdContrato() + "/t Imovel " + c.getProprietario().getImovel().getIdImovel() + "/t Corretor" + c.getCorretor().getPessoa());
+			}
+		}
+	}
+	
+	public void DetalharContrato(int idContrato){
+		if (ListContrato.size() != 0){
+			for (Contrato c: ListContrato){
+				if (c.getIdContrato() == idContrato){
+					System.out.println("ID: " + c.getIdContrato());
+					System.out.println("Imovel: " + c.getProprietario().getImovel().getIdImovel());
+					System.out.println("Proprietario: " + c.getProprietario().getPessoa());
+					System.out.println("Corretor: " + c.getCorretor().getPessoa());
+					System.out.println("Valor: " + c.getValorContrato());
+					System.out.println("Data Assinatura: " + c.getDataAssinatura().toString());
+				}
+			}
+		}
+	}
+	
+	public void ExcluirContrato(int idContrato){
+		Contrato temp = null;
+		if (ListContrato.size() != 0){
+			for (Contrato c: ListContrato){
+				if (c.getIdContrato() == idContrato){
+					temp = c;
+				}
+			}
+		temp.getProprietario().getImovel().setAlugado(false);	
+		ListContrato.remove(temp);	
+		totalContratosAssinados --;
+		totalDeContratos --;
+		totalImoveisVagos ++;
+		}
+		
+	}
+	
+	public void ListarContratosAssinadosMes(){
+		Date hoje = new Date();
+		
+		if (ListContrato.size() == 0) {
+			System.out.println("Não Existem Contratos");
+		}else{
+			for (Contrato c: ListContrato){
+				if (c.getDataAssinatura().getMonth() == hoje.getMonth()){
+					System.out.println("ID: " + c.getIdContrato() + "/t Imovel " + c.getProprietario().getImovel().getIdImovel() + "/t Corretor" + c.getCorretor().getPessoa());	
+				}
+			}
+		}
+	}
+	
+	public int SomarContratosCorretorMes(int idCorretor){
+		int retorno = 0;
+		Date hoje = new Date();
+		
+		if (ListContrato.size() == 0) {
+			retorno = 0;
+		}else{
+			for (Contrato c: ListContrato){
+				if ((c.getCorretor().getIDFuncional() == idCorretor)&&(c.getDataAssinatura().getMonth() == hoje.getMonth())){
+					retorno = retorno + c.getValorContrato();
+				}
+			}
+		}
+		return retorno;
+	}
+	
+	public int ObterResultadoMes(){
+		int retorno = 0;
+		Date hoje = new Date();
+		
+		if (ListContrato.size() == 0) {
+			retorno = 0;
+		}else{
+			for (Contrato c: ListContrato){
+				if (c.getDataAssinatura().getMonth() == hoje.getMonth()){
+					retorno = retorno + c.getValorContrato();
+				}
+			}
+		}
+		return retorno;
+	}
+	
+	public int SomarContratos(){
+		int retorno = 0;
+		
+		if (ListContrato.size() == 0) {
+			retorno = 0;
+		}else{
+			for (Contrato c: ListContrato){
+					retorno = retorno + c.getValorContrato();
+			}
+		}
+		return retorno;
+	}
+	
+	public void AssinarContrato() throws Exception{
+		int idContrato;
+		System.out.println("Id do Contrato: ");
+	    idContrato = Integer.parseInt(reader.readLine());
+	    for (Contrato c: ListContrato){
+	    	if (c.getIdContrato() == idContrato){
+	    		c.assinarContrato();
+	    	}
+	    }
+	    totalContratosAssinados++;
+	    totalImoveisVagos--;
+	}
+	
+	public void CadastrarImovel() throws Exception 
     {
 				
     	int idProp;
     	Endereco nEndereco = new Endereco();
     	Imovel imoveis = new Imovel();
+    	Proprietario proprietario = null;
 				
 					//verificar se já existe o proprietario
-					try {
 						System.out.println("Id do Proprietario: ");
 						idProp = Integer.parseInt(reader.readLine());
 						System.out.println("Tipo do imovel: ");
@@ -55,25 +217,33 @@ public class Portifolio
 						System.out.println("Possui area externa 1-Sim / 0-Nao: ");
 						imoveis.setPossuiuAreaExterna(Integer.parseInt(reader.readLine()));
 						
+						for (Proprietario p : ListProprietario){
+							if (p.getpIdProprietario() == idProp){
+								proprietario = p;
+							}
+						}
+						
+						if (proprietario == null){
+							erro.mostraErro("Proprietario Inexistente");
+						}
+						
+						proprietario.setImovel(imoveis);
+						
 						nEndereco.CadastrarEndereco();
 						
 						ListImovel.add(imoveis);
-					} 
-					catch (IOException e) {
-						e.printStackTrace();
 					} 								
-    		}
+    		
 
-	public void CadastrarInquilino() {
+	public void CadastrarInquilino() throws Exception{
 	
 			Inquilino Inq = new Inquilino();
-			
+            int idImovel;			
 			//Inq.setpIdInquilino(ListInquilino);
 			System.out.println("Nome: ");
-			try {
 				Inq.SetPessoa(reader.readLine());
 				System.out.println("CPF: ");
-				Inq.SetCPF(reader.readLine());
+				Inq.SetCPF(Integer.parseInt(reader.readLine()));
 				System.out.println("RG: ");
 				Inq.SetRG(reader.readLine());
 				System.out.println("Possui restrições? 1-Sim / 2-Não");
@@ -84,25 +254,31 @@ public class Portifolio
 					Inq.setRestricoes(reader.readLine());
 				}
 				
+				System.out.println("Id imovel: ");
+				idImovel = Integer.parseInt(reader.readLine());
+				
+				for (Imovel i: ListImovel){
+					if (i.getIdImovel() == idImovel){
+						i.setInquilino(Inq);
+					}
+				}
+				
 				Inq.setpIdInquilino(Inq.getpIdInquilino()+1);
 				ListInquilino.add(Inq);
 		
-			} 
-			catch (IOException e) {
-				e.printStackTrace();
-			}
+			
 	}
 	
-	public void CadastrarProprietario() {
+	public void CadastrarProprietario() throws Exception{
 		
 		Proprietario Prop = new Proprietario();
 	
-		try {
+	
 //			Prop.setpIdProprietario(pIdProprietario);
 			System.out.println("Nome: ");
 			Prop.SetPessoa(reader.readLine());
 			System.out.println("CPF: ");
-			Prop.SetCPF(reader.readLine());
+			Prop.SetCPF(Integer.parseInt(reader.readLine()));
 			System.out.println("RG: ");
 			Prop.SetRG(reader.readLine());
 			System.out.println("Conta: ");
@@ -115,22 +291,19 @@ public class Portifolio
 			ListProprietario.add(Prop);
 		//	setpIdProprietario(getpIdProprietario() + 1);	
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 	
-	public void CadastrarFiador() {
+	public void CadastrarFiador() throws Exception{
 		
 		Fiador F = new Fiador();
 		
-		try {
+		
 			//F.setpIdFiador(pIdFiador);
 			System.out.println("Nome: ");
 			F.SetPessoa(reader.readLine());
 			System.out.println("CPF: ");
-			F.SetCPF(reader.readLine());
+			F.SetCPF(Integer.parseInt(reader.readLine()));
 			System.out.println("RG: ");
 			F.SetRG(reader.readLine());
 			System.out.println("Renda: ");
@@ -139,9 +312,7 @@ public class Portifolio
 			ListFiador.add(F);
 			//setpIdFiador(getpIdFiador() + 1);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public void ListarImovel() {
@@ -265,7 +436,7 @@ public class Portifolio
 
     }
 	
-	public void ExcluirImovel() {
+	public void ExcluirImovel() throws Exception{
 		
 		int idfunc;
 		Imovel exclusao = new Imovel();
@@ -287,7 +458,7 @@ public class Portifolio
 		}		
 	}
 	
-	public void ExcluirInquilino() {
+	public void ExcluirInquilino() throws Exception{
 		
 		int idinq;
 		Inquilino exclusao = new Inquilino();
@@ -309,7 +480,7 @@ public class Portifolio
 		}		
 	}
 
-	public void ExcluirProprietario() {
+	public void ExcluirProprietario() throws Exception{
 		
 		int idprop;
 		Proprietario exclusao = new Proprietario();
@@ -331,7 +502,7 @@ public class Portifolio
 		}		
 	}
 	
-	public void AlterarDadosImovel(int idimovel) {
+	public void AlterarDadosImovel(int idimovel) throws Exception{
 		
 		int alteracao;
 		
@@ -421,7 +592,7 @@ public class Portifolio
 		}
 	}
 	
-	public void AlterarDadosInquilino(int idinquilino) {
+	public void AlterarDadosInquilino(int idinquilino) throws Exception {
 		
 		int alteracao;
 		
@@ -452,7 +623,7 @@ public class Portifolio
 						
 					case 3:
 						System.out.println("Novo CPF: ");
-						inq.SetCPF(reader.readLine());
+						inq.SetCPF(Integer.parseInt(reader.readLine()));
 						
 					case 4:
 						System.out.println("Possui restrições?");
@@ -466,7 +637,7 @@ public class Portifolio
 		}
 	}
 	
-public void AlterarDadosProprietario(int idproprietario) {
+public void AlterarDadosProprietario(int idproprietario) throws Exception {
 		
 		int alteracao;
 		
@@ -498,7 +669,7 @@ public void AlterarDadosProprietario(int idproprietario) {
 						
 					case 3:
 						System.out.println("Novo CPF: ");
-						prop.SetCPF(reader.readLine());
+						prop.SetCPF(Integer.parseInt(reader.readLine()));
 						
 					case 4:
 						System.out.println("Novo banco: ");
@@ -506,15 +677,17 @@ public void AlterarDadosProprietario(int idproprietario) {
 					
 					case 5:
 						System.out.println("Nova agencia: ");
-						prop.setAgencia(reader.readLine());
+						prop.setAgencia(Integer.parseInt(reader.readLine()));
 					
 					case 6:
 						System.out.println("Nova conta: ");
-						prop.setnumeroConta(reader.readLine());
+						prop.setnumeroConta(Integer.parseInt(reader.readLine()));
 				}
 			}
 		}
 	}
+
+
 
 
 }

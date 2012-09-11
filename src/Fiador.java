@@ -35,7 +35,7 @@ public class Fiador extends Pessoa
 		System.out.println("Nome: ");
 		F.nome = leitor.nextLine();
 		System.out.println("CPF: ");
-		F.CPF = leitor.nextLine();
+		F.CPF = leitor.nextInt();
 		System.out.println("RG: ");
 		F.RG = leitor.nextLine();
 		System.out.println("Renda: ");

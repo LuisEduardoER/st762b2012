@@ -14,8 +14,22 @@ public class Proprietario extends Pessoa
 	private int numeroConta;
 	private int agencia;
 	private String banco;
+	private Imovel imovel;
+    
 	
 	public static Scanner leitor = new Scanner(System.in);
+	private static TrataErro erro = new TrataErro();
+    
+	public void setImovel (Imovel nImovel) throws Exception{
+		if (nImovel == null){
+			erro.mostraErro("Imovel Invalido");
+		}
+	    imovel = nImovel;
+	}
+	
+	public Imovel getImovel (){
+		return imovel;
+	}
 	
 	public int getnumeroConta() {
 		return(numeroConta);
@@ -57,7 +71,7 @@ public class Proprietario extends Pessoa
 		System.out.println("Nome: ");
 		Prop.nome = reader.readLine();
 		System.out.println("CPF: ");
-		Prop.CPF = reader.readLine();
+		Prop.CPF = Integer.parseInt(reader.readLine());
 		System.out.println("RG: ");
 		Prop.RG = reader.readLine();
 		System.out.println("Conta: ");

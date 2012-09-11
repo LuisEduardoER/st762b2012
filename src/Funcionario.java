@@ -2,18 +2,18 @@ import java.util.Scanner;
 
 public class Funcionario extends Pessoa
 {	
-	private int idFuncional;
-	private	int salario;
-	private String cargo; 		
-	public static Scanner leitor = new Scanner(System.in);
+	private int idFuncional=0;
+	protected	float salario;
+	private String cargo; 	
+	public static Scanner leitor = new Scanner(System.in);	
 	
 	
-			public int getSalario()
+			public float getSalario()
 			{
 				return(salario);
 			}
 			
-			public void setSalario(int salariofunc)
+			public void setSalario(float salariofunc)
 			{
 				salario = salariofunc;
 			}
@@ -33,31 +33,13 @@ public class Funcionario extends Pessoa
 				return(idFuncional);
 			}
 			
-			public void setIDFuncional(int idfunc )
+			public void setIDFuncional(int idfunc)
 			{
 				idFuncional = idfunc;
 			}
 			
-			public void calcularSalario()
+			public void calcularSalario(int comissao,int total)
 			{
-				//implementar			
-			}
-			
-			public void Cadastrar()
-			{
-				System.out.println("Nome: ");
-				this.nome = leitor.nextLine();
-				System.out.println("CPF: ");
-				this.CPF = leitor.nextLine();
-				System.out.println("RG: ");
-				this.RG = leitor.nextLine();
-				System.out.println("Cargo: ");
-				this.cargo = leitor.nextLine();	
-				System.out.println("ID: ");
-				this.idFuncional = leitor.nextInt();
-				System.out.println("Salario: ");
-				this.salario = leitor.nextInt();
-			
-			}
-		
+				//sobrecarregar nas classes filhas		
+			}			
 }
