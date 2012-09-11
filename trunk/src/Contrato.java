@@ -5,19 +5,30 @@ public class Contrato {
      private static TrataErro erro = new TrataErro();
 	
 	 private int idContrato;
-     private int valorContrato;
+	 private int valorContrato;
      private Date dataAssinatura;
      private boolean assinado;
+     
+     private final Object cadeadoIdContrato = new Object();
+     private final Object cadeadoValorContrato = new Object();
+     private final Object cadeadoDataAssinatura = new Object();
+     private final Object cadeadoAssinado = new Object();
      
      private Proprietario proprietario;
      private Corretor corretor;
      private Fiador fiador;
      
+     private final Object cadeadoProprietario = new Object();
+     private final Object cadeadoCorretor = new Object();
+     private final Object cadeadoFiador = new Object();
+     
      private static int pIdContrato; // variavel de auto-incremento para gerar PK
+     
+     private static final Object cadeadoPIdContrato = new Object();
      
      public Contrato (Corretor     nCorretor,
     		          Proprietario nProprietario) throws Exception {
-
+    	 
     	 if (nCorretor == null){
     		 erro.mostraErro("Corretor Invalido");
     	 }
@@ -28,66 +39,92 @@ public class Contrato {
     	 assinado = false;
     	 corretor = nCorretor;
     	 proprietario = nProprietario;
-    	 pIdContrato++;
-    	 idContrato = pIdContrato;
+    	 synchronized (cadeadoPIdContrato) {
+    		 pIdContrato++;
+        	 idContrato = pIdContrato;
+		 }
      }
      
  
      public int getIdContrato (){
-    	 return idContrato;
+    	 synchronized (cadeadoIdContrato) {
+    		 return idContrato;	
+		}
      }
      
      public int getValorContrato (){
-    	 return valorContrato;
+    	 synchronized (cadeadoValorContrato) {
+    		 return valorContrato;	
+		}
      }
      
      
      public Date getDataAssinatura (){
-    	 return dataAssinatura;
+    	 synchronized (cadeadoDataAssinatura) {
+    		 return dataAssinatura;
+		}
+    	 
      }
      
      public void setValorContrato (int nValorContrato) throws Exception{
-    	 if (assinado){
-    		 erro.mostraErro("Contrato ja assinado");
+    	 synchronized (cadeadoValorContrato) {
+    		 if (assinado){
+    			 erro.mostraErro("Contrato ja assinado");
+    		 }
+    		 valorContrato = nValorContrato;
     	 }
-    	 valorContrato = nValorContrato;
      }
      
      
      public Proprietario getProprietario(){
-    	 return proprietario;
+    	 synchronized (cadeadoProprietario) {
+    		 return proprietario;
+		}
      }
      
      public Inquilino getInquilino() throws Exception{
-    	 return proprietario.getImovel().getInquilino();
+    	 synchronized (cadeadoProprietario) {
+    		 return proprietario.getImovel().getInquilino();	
+		}
      }
      
      public Corretor getCorretor(){
-    	 return corretor;
+    	 synchronized (cadeadoCorretor) {
+    		 return corretor;
+		}
      }
      
     public Imovel getImovel(){
-    	 return proprietario.getImovel();
+        synchronized (cadeadoProprietario) {
+        	return proprietario.getImovel();
+		}	 
      }
      
      public Fiador getFiador() throws Exception{
-    	 if (fiador == null){
-    		 erro.mostraErro("fiador ainda nao cadastrado");
-    	 }
-    	 return fiador;
+    	 synchronized (cadeadoFiador) {
+    		 if (fiador == null){
+        		 erro.mostraErro("fiador ainda nao cadastrado");
+        	 }
+        	 return fiador;
+		}
      }
      
      public void assinarContrato() throws Exception{
-    	 if (proprietario.getImovel().getAlugado()){
-    		 erro.mostraErro("Imovel já esta alugado");
+    	 synchronized (cadeadoProprietario) {
+    		 if (proprietario.getImovel().getAlugado()){
+    			 erro.mostraErro("Imovel já esta alugado");
+    		 }
+    		 proprietario.getImovel().setAlugado(true);
     	 }
-    	 proprietario.getImovel().setAlugado(true);
-    	 dataAssinatura = new Date();
-    	 assinado = true;
+    	 synchronized (cadeadoDataAssinatura) { 
+    		 dataAssinatura = new Date();
+    	 }
+    	 synchronized (cadeadoAssinado) {
+    		 assinado = true;
+		}
      }
           
-     public void modificarDadosFiador(String nome,String RG, String CPF, int rendaComprovada){
+     //public void modificarDadosFiador(String nome,String RG, String CPF, int rendaComprovada){
     	 //Implementar... antes verificar detalhes do fiador, beijos
-     }
-     
+     //} oi?
 }
